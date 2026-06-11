@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type FaqDocument = HydratedDocument<Faq>;
 
-@Schema({ timestamps: true, collection: 'faq_medicamentos' })
+@Schema({ timestamps: true, collection: 'faqs' })
 export class Faq {
   @Prop({ required: true })
   question!: string;
