@@ -38,14 +38,11 @@ export class Faq {
   @Prop({ type: [Number], default: null })
   embedding!: number[];
 
-  @Prop()
+  @Prop({ required: true })
   embeddingModel!: string;
 
-  @Prop()
+  @Prop({ required: true })
   embeddingDimensions!: number;
-
-  @Prop()
-  contentHash!: string;
 }
 
 export const FaqSchema = SchemaFactory.createForClass(Faq);
