@@ -4,6 +4,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -20,15 +21,19 @@ export class CreateFaqDto {
   category!: string;
 
   @IsArray()
+  @IsOptional()
   @IsString({ each: true })
   tags!: string[];
 
+  @IsOptional()
   @IsString()
   source!: string;
 
+  @IsOptional()
   @IsIn(['draft', 'review', 'published', 'archived'])
   status!: 'draft' | 'review' | 'published' | 'archived';
 
+  @IsOptional()
   @IsDate()
   reviewAfter?: Date;
 
@@ -36,6 +41,7 @@ export class CreateFaqDto {
   @IsNotEmpty()
   createdBy!: string;
 
+  @IsOptional()
   @IsString()
   updatedBy?: string;
 
