@@ -8,6 +8,10 @@ export class FaqsService {
     return 'This action adds a new faq';
   }
 
+  createMany(createManyFaqDto: CreateFaqDto[]) {
+    return 'Adiciona varias faqs';
+  }
+
   findAll() {
     return `This action returns all faqs`;
   }

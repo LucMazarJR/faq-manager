@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { FaqsService } from './faqs.service';
 import { CreateFaqDto } from './dto/create-faq.dto';
 import { UpdateFaqDto } from './dto/update-faq.dto';
@@ -10,6 +18,11 @@ export class FaqsController {
   @Post()
   create(@Body() createFaqDto: CreateFaqDto) {
     return this.faqsService.create(createFaqDto);
+  }
+
+  @Post()
+  CreateMany(@Body() createManyFaqDto: CreateFaqDto[]) {
+    return this.faqsService.createMany(createManyFaqDto);
   }
 
   @Get()
