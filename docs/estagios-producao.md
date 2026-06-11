@@ -57,6 +57,10 @@ A Fase 1 está concluída quando qualquer membro do grupo consegue, **a partir d
 - [ ] CI/CD com GitHub Actions
   - [ ] Pipeline de testes automáticos em cada PR
   - [ ] Deploy automático para produção ao mergear em `main`
+- [ ] Histórico de alterações das FAQs
+  - [ ] Registro automático de cada criação, edição e exclusão
+  - [ ] Armazenamento de: autor, data/hora, campo alterado, valor anterior e valor novo
+  - [ ] Endpoint `GET /faqs/:id/history` — listar histórico de uma FAQ
 - [ ] Logs e monitoramento básico
 
 ### Frontend
@@ -70,6 +74,9 @@ A Fase 1 está concluída quando qualquer membro do grupo consegue, **a partir d
   - [ ] Controle de quais FAQs são visíveis para cada usuário
 - [ ] CI/CD integrado à plataforma de deploy (deploy automático)
 - [ ] Domínio configurado (opcional)
+- [ ] Tela de histórico de alterações por FAQ
+  - [ ] Linha do tempo das edições com diff visual (campo antes/depois)
+  - [ ] Identificação do autor de cada alteração
 
 ### Critério de conclusão da Fase 2
 
