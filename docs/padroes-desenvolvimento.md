@@ -101,8 +101,7 @@ docker compose down
 docker compose down -v
 ```
 
-O banco de dados (MongoDB) estará disponível em `localhost:27017`.
-O Mongo Express (interface visual do banco) estará em `http://localhost:8081`.
+O banco de dados é o **MongoDB Atlas** (nuvem) — não há container local para ele. Certifique-se de que a variável `MONGODB_URI` no `.env` aponta para sua connection string do Atlas.
 
 ---
 
