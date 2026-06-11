@@ -39,11 +39,6 @@ export class CreateFaqDto {
   @IsString()
   updatedBy?: string;
 
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsNotEmpty()
-  embedding!: number[];
-
   @IsString()
   @IsNotEmpty()
   embeddingModel!: string;
