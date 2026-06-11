@@ -21,15 +21,15 @@ export class FaqsService {
     return this.faqModel.find();
   }
 
-  findOneById(id: number) {
+  findOneById(id: string) {
     return this.faqModel.findById(id);
   }
 
-  update(id: number, updateFaqDto: UpdateFaqDto) {
+  update(id: string, updateFaqDto: UpdateFaqDto) {
     return this.faqModel.findByIdAndUpdate(id, updateFaqDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.faqModel.findByIdAndDelete(id);
   }
 }

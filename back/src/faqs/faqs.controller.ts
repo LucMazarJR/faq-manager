@@ -20,7 +20,7 @@ export class FaqsController {
     return this.faqsService.create(createFaqDto);
   }
 
-  @Post()
+  @Post('bulk')
   CreateMany(@Body() createManyFaqDto: CreateFaqDto[]) {
     return this.faqsService.createMany(createManyFaqDto);
   }
@@ -32,16 +32,16 @@ export class FaqsController {
 
   @Get(':id')
   findOneById(@Param('id') id: string) {
-    return this.faqsService.findOneById(+id);
+    return this.faqsService.findOneById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFaqDto: UpdateFaqDto) {
-    return this.faqsService.update(+id, updateFaqDto);
+    return this.faqsService.update(id, updateFaqDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.faqsService.remove(+id);
+    return this.faqsService.remove(id);
   }
 }
