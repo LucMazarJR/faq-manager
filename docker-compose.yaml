@@ -1,0 +1,9 @@
+services:
+  back:
+    build: ./back/
+    container_name: faqs_backend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    env_file:
+      - ./back/.env
