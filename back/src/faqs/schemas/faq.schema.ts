@@ -1,1 +1,51 @@
-export class Faq {}
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type FaqDocument = HydratedDocument<Faq>;
+
+@Schema({ timestamps: true, collection: 'faq_medicamentos' })
+export class Faq {
+  @Prop({ required: true })
+  question!: string;
+
+  @Prop({ required: true })
+  answer!: string;
+
+  @Prop({ required: true, lowercase: true, trim: true })
+  category!: string;
+
+  @Prop({ type: [String], default: [], lowercase: true })
+  tags!: string[];
+
+  @Prop({ default: '' })
+  source!: string;
+
+  @Prop({
+    enum: ['draft', 'review', 'published', 'archived'],
+    default: 'draft',
+  })
+  status!: string;
+
+  @Prop()
+  reviewAfter!: Date;
+
+  @Prop({ required: true })
+  createdBy!: string;
+
+  @Prop()
+  updatedBy!: string;
+
+  @Prop({ type: [Number], default: null })
+  embedding!: number[];
+
+  @Prop()
+  embeddingModel!: string;
+
+  @Prop()
+  embeddingDimensions!: number;
+
+  @Prop()
+  contentHash!: string;
+}
+
+export const FaqSchema = SchemaFactory.createForClass(Faq);
