@@ -26,13 +26,13 @@ export class FaqsController {
   }
 
   @Get()
-  findAll() {
-    return this.faqsService.findAll();
+  findPaginated() {
+    return this.faqsService.findPaginated();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.faqsService.findOne(+id);
+  findOneById(@Param('id') id: string) {
+    return this.faqsService.findOneById(+id);
   }
 
   @Patch(':id')

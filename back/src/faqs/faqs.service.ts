@@ -10,26 +10,26 @@ export class FaqsService {
   constructor(@InjectModel('Faq') private faqModel: Model<Faq>) {}
 
   create(createFaqDto: CreateFaqDto) {
-    return 'This action adds a new faq';
+    return this.faqModel.insertOne(createFaqDto);
   }
 
   createMany(createManyFaqDto: CreateFaqDto[]) {
-    return 'Adiciona varias faqs';
+    return this.faqModel.insertMany(createManyFaqDto);
   }
 
-  findAll() {
-    return `This action returns all faqs`;
+  findPaginated() {
+    return this.faqModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} faq`;
+  findOneById(id: number) {
+    return this.faqModel.findById(id);
   }
 
   update(id: number, updateFaqDto: UpdateFaqDto) {
-    return `This action updates a #${id} faq`;
+    return this.faqModel.findByIdAndUpdate(id, updateFaqDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} faq`;
+    return this.faqModel.findByIdAndDelete(id);
   }
 }
