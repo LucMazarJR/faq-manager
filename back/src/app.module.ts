@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FaqsModule } from './faqs/faqs.module';
 import { HealthResponse } from './dto/health.dto';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [FaqsModule, HealthResponse],
+  imports: [FaqsModule, HealthResponse, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
