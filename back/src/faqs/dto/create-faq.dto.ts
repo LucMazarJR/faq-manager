@@ -11,6 +11,10 @@ import {
 export class CreateFaqDto {
   @IsString()
   @IsNotEmpty()
+  title!: string;
+
+  @IsString()
+  @IsNotEmpty()
   question!: string;
 
   @IsString()

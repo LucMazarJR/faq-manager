@@ -6,6 +6,9 @@ export type FaqDocument = HydratedDocument<Faq>;
 @Schema({ timestamps: true, collection: 'faqs' })
 export class Faq {
   @Prop({ required: true })
+  title!: string;
+
+  @Prop({ required: true })
   question!: string;
 
   @Prop({ required: true })

@@ -16,7 +16,7 @@ export class EmbeddingService {
       contents: `task: question answering | query: ${questionData.content}`,
     });
 
-    console.log(response.embeddings);
+    return response.embeddings?.map((e) => e.values) || [];
   }
 
   async embeddingToSave(questionData: questionData) {
@@ -27,6 +27,6 @@ export class EmbeddingService {
       contents: `title: ${questionData.title ?? 'none'} | text: ${questionData.content}`,
     });
 
-    console.log(response.embeddings);
+    return response.embeddings?.[0]?.values;
   }
 }

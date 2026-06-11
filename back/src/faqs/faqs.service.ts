@@ -4,13 +4,27 @@ import { UpdateFaqDto } from './dto/update-faq.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Faq } from './schemas/faq.schema';
+import { EmbeddingService } from '../embedding/embedding.service';
 
 @Injectable()
 export class FaqsService {
-  constructor(@InjectModel('Faq') private faqModel: Model<Faq>) {}
+  constructor(
+    @InjectModel('Faq') private faqModel: Model<Faq>,
+    private readonly embeddingService: EmbeddingService,
+  ) {}
 
-  create(createFaqDto: CreateFaqDto) {
-    return this.faqModel.insertOne(createFaqDto);
+  async create(createFaqDto: CreateFaqDto) {
+    try {
+      const embedding = await this.embeddingService.embeddingToSave({
+        content: createFaqDto.question,
+        title: createFaqDto.title,
+      });
+      const payload = { ...createFaqDto, embedding };
+
+      return this.faqModel.insertOne(payload);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   createMany(createManyFaqDto: CreateFaqDto[]) {
