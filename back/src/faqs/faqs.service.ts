@@ -15,20 +15,48 @@ export class FaqsService {
 
   async create(createFaqDto: CreateFaqDto) {
     try {
-      const embedding = await this.embeddingService.embeddingToSave({
-        content: createFaqDto.question,
-        title: createFaqDto.title,
-      });
-      const payload = { ...createFaqDto, embedding };
+      const embedding = await this.embeddingService.embeddingOne(
+        createFaqDto.question,
+      );
 
-      return this.faqModel.insertOne(payload);
+      if (embedding) {
+        const payload = { ...createFaqDto, embedding };
+        console.log(payload);
+        return this.faqModel.insertOne(payload);
+      }
+      throw new Error('Falha ao gerar embedding');
     } catch (e) {
       console.log(e);
     }
   }
 
-  createMany(createManyFaqDto: CreateFaqDto[]) {
-    return this.faqModel.insertMany(createManyFaqDto);
+  async createMany(createManyFaqDto: CreateFaqDto[]) {
+    const sucessPayload: Faq[] = [];
+
+    for (const faq of createManyFaqDto) {
+      try {
+        const embedding = await this.embeddingService.embeddingOne(
+          faq.question,
+        );
+        if (embedding) {
+          const data = { ...faq, embedding };
+          sucessPayload.push(data);
+        }
+      } catch {
+        break;
+      }
+    }
+
+    if (sucessPayload.length === 0) {
+      throw new Error('Não foi possivel processar nenhuma FAQ');
+    }
+
+    const savedFaqs = await this.faqModel.insertMany(sucessPayload);
+    return {
+      totalFaqs: createManyFaqDto.length,
+      totalSavedFaqs: savedFaqs.length,
+      savedFaqs,
+    };
   }
 
   findPaginated() {
