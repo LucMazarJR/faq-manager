@@ -121,7 +121,13 @@ export class FaqsService {
     return faq;
   }
 
-  remove(id: string) {
-    return this.faqModel.findByIdAndDelete(id);
+  async remove(id: string) {
+    const removedFaq = await this.faqModel.findByIdAndDelete(id);
+
+    if (!removedFaq) {
+      throw new NotFoundException('FAQ não encontrada para exclusão');
+    }
+
+    return removedFaq;
   }
 }
