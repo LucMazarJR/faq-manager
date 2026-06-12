@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { HealthResponse } from './dto/health.dto';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  HealthCheck(): HealthResponse {
+    return {
+      status: 'ok',
+      timestamp: new Date().toLocaleString(),
+    };
   }
 }
