@@ -1,10 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateFaqDto } from './dto/create-faq.dto';
 import { UpdateFaqDto } from './dto/update-faq.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Faq } from './schemas/faq.schema';
 import { EmbeddingService } from '../embedding/embedding.service';
+
+interface CompleteUpdateData extends UpdateFaqDto {
+  embedding?: number[];
+}
 
 @Injectable()
 export class FaqsService {
@@ -24,7 +33,8 @@ export class FaqsService {
         console.log(payload);
         return this.faqModel.insertOne(payload);
       }
-      throw new Error('Falha ao gerar embedding');
+
+      throw new InternalServerErrorException('Falha ao gerar embedding');
     } catch (e) {
       console.log(e);
     }
@@ -48,7 +58,7 @@ export class FaqsService {
     }
 
     if (sucessPayload.length === 0) {
-      throw new Error('Não foi possivel processar nenhuma FAQ');
+      throw new BadRequestException('Não foi possivel processar nenhuma FAQ');
     }
 
     const savedFaqs = await this.faqModel.insertMany(sucessPayload);
@@ -86,8 +96,29 @@ export class FaqsService {
     return faq;
   }
 
-  update(id: string, updateFaqDto: UpdateFaqDto) {
-    return this.faqModel.findByIdAndUpdate(id, updateFaqDto);
+  async update(id: string, updateFaqDto: UpdateFaqDto) {
+    let completeData: CompleteUpdateData = updateFaqDto;
+
+    if (updateFaqDto.question) {
+      try {
+        const embedding = await this.embeddingService.embeddingOne(
+          updateFaqDto.question,
+        );
+        completeData = { ...completeData, embedding };
+      } catch (e) {
+        throw new BadRequestException('Erro inesperado: ' + e);
+      }
+    }
+
+    const faq = await this.faqModel.findByIdAndUpdate(id, completeData, {
+      returnDocument: 'after',
+    });
+
+    if (!faq) {
+      throw new NotFoundException('Não foi encontrada nenhuma faq com esse ID');
+    }
+
+    return faq;
   }
 
   remove(id: string) {
