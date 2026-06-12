@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFaqDto } from './dto/create-faq.dto';
 import { UpdateFaqDto } from './dto/update-faq.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -59,12 +59,31 @@ export class FaqsService {
     };
   }
 
-  findPaginated() {
-    return this.faqModel.find();
+  async findPaginated(page: number, pageSize: number) {
+    const skippedDocumentsCount = page * pageSize;
+
+    const faqs = await this.faqModel.find({}, null, {
+      skip: skippedDocumentsCount,
+      limit: pageSize,
+    });
+
+    if (!faqs) {
+      throw new NotFoundException(
+        'Não foi encontrado nenhum usuário para esses parametros',
+      );
+    }
+    return faqs;
   }
 
-  findOneById(id: string) {
-    return this.faqModel.findById(id);
+  async findOneById(id: string) {
+    const faq = await this.faqModel.findById(id);
+
+    if (!faq) {
+      throw new NotFoundException(
+        'Não foi encontrada nenhuma FAQ para esse id',
+      );
+    }
+    return faq;
   }
 
   update(id: string, updateFaqDto: UpdateFaqDto) {

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { FaqsService } from './faqs.service';
 import { CreateFaqDto } from './dto/create-faq.dto';
@@ -26,8 +27,11 @@ export class FaqsController {
   }
 
   @Get()
-  findPaginated() {
-    return this.faqsService.findPaginated();
+  findPaginated(
+    @Query('pageSize') pageSize: number,
+    @Query('page') page: number,
+  ) {
+    return this.faqsService.findPaginated(page, pageSize);
   }
 
   @Get(':id')
