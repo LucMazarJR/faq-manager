@@ -6,9 +6,6 @@ export type FaqDocument = HydratedDocument<Faq>;
 @Schema({ timestamps: true, collection: 'faqs' })
 export class Faq {
   @Prop({ required: true })
-  title!: string;
-
-  @Prop({ required: true })
   question!: string;
 
   @Prop({ required: true })
@@ -30,13 +27,13 @@ export class Faq {
   status!: string;
 
   @Prop()
-  reviewAfter!: Date;
+  reviewAfter?: Date;
 
   @Prop({ required: true })
   createdBy!: string;
 
   @Prop()
-  updatedBy!: string;
+  updatedBy?: string;
 
   @Prop({ type: [Number], default: null })
   embedding!: number[];
